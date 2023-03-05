@@ -1,7 +1,11 @@
 from operations import *
 from datetime import datetime
+import time
 
 def encrypt(plaintext, key, IV='\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0', num_rounds=16):
+    # start timer
+    start = time.time()
+
     key = charToBytes(key)
     IV = charToBytes(IV)
     if len(key) != 16 and IV != 16:
@@ -36,9 +40,16 @@ def encrypt(plaintext, key, IV='\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0', num_rounds=16
     for i in range(len(blocks)):
         ciphertext += blocks[i]
 
+    # end timer
+    end = time.time()
+    print("Time taken: ", end - start)
+
     return ciphertext
 
 def decrypt(ciphertext, key, IV='\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0', num_rounds=16):
+    #start timer
+    start = time.time()
+
     key = charToBytes(key)
     IV = charToBytes(IV)
     if len(key) != 16 and IV != 16:
@@ -73,6 +84,10 @@ def decrypt(ciphertext, key, IV='\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0', num_rounds=1
     plaintext = b''
     for i in range(len(resultingBlock)):
         plaintext += resultingBlock[i]
+    
+    # end timer
+    end = time.time()
+    print("Time taken: ", end - start)
 
     return plaintext.rstrip(b'\x00')
 
